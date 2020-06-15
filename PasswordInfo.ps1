@@ -1,0 +1,2 @@
+import-module ActiveDirectory
+Get-ADUser -filter * -properties passwordlastset, passwordneverexpires | sort-object name | select-object Name, passwordlastset, passwordneverexpires | Export-csv -path "C:\Users\heidihendry\Documents\0Scripts\Password Info\user-password-info-25082017.csv"

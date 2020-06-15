@@ -1,0 +1,2 @@
+Add-PSSnapin Microsoft.Exchange.Management.PowerShell.E2010
+Get-Mailbox -Server MAIL -ResultSize unlimited | Search-Mailbox -SearchQuery 'From:ak82344574@gmail.com Subject:"k"' -DeleteContent >> C:\scripts\deleteMessage\delete_results.txt 
