@@ -36,24 +36,24 @@ Function Get-DistinguishedNameUser ($samAccountName)
 
 
 # Create the AD User and depending on "Year" create it in the relevant OU Primary or Secondary
-import-csv ì\\mail\SIMSImport\NewStudents\newstudents.csvî | ForEach-Object {
+import-csv ‚Äú\\mail\SIMSImport\NewStudents\newstudents.csv‚Äù | ForEach-Object {
 
 $GradClass=$GradClassArr.Get_Item($_.description)
 if ($PrimaryYear -contains $_.description)
 {
 $ID = $_.cn	
-New-ADUser -name $_.cn  ñGivenName $_.givenName ñSurname $_.sn -Path "OU=Primary Student Login Accounts,OU=Students,OU=AllUsers,OU=BIS-HN,DC=bishanoi,DC=com"  -DisplayName ($_.givenName + " " + $_.sn + " - " + $_.cn) -EmployeeID $_.employeeID -sAMAccountName $_.sAMAccountName -description $_.description -title $_.title -department $_.department  -company "British International School, Hanoi"  
+New-ADUser -name $_.cn  ‚ÄìGivenName $_.givenName ‚ÄìSurname $_.sn -Path "OU=Primary Student Login Accounts,OU=Students,OU=AllUsers,OU=Company,DC=company,DC=com"  -DisplayName ($_.givenName + " " + $_.sn + " - " + $_.cn) -EmployeeID $_.employeeID -sAMAccountName $_.sAMAccountName -description $_.description -title $_.title -department $_.department  -company "British International School, Hanoi"  
 $DN = Get-DistinguishedNameUser $ID
-Add-ADGroupMember "CN=BISHN_Student_Primary,OU=Security Groups,OU=Groups,OU=BIS-HN,DC=bishanoi,DC=com" ñMember $DN
+Add-ADGroupMember "CN=Student_Primary,OU=Security Groups,OU=Groups,OU=Company,DC=company,DC=com" ‚ÄìMember $DN
 Write-Host "Primary account created:"  $_.cn $_.givenName $_.sn
 $body+= "Primary account created: $ID"
 }
 elseif ($SecondaryYear -contains $_.description)
 {
 $ID = $_.cn
-New-ADUser -name $_.cn  ñGivenName $_.givenName ñSurname $_.sn -Path "OU=Secondary Student Login Accounts,OU=Students,OU=AllUsers,OU=BIS-HN,DC=bishanoi,DC=com"  -DisplayName ($_.givenName + " " + $_.sn + " - " + $_.cn) -EmployeeID $_.employeeID -sAMAccountName $_.sAMAccountName -description $_.description -title $_.title -department $_.department  -company "British International School, Hanoi"
+New-ADUser -name $_.cn  ‚ÄìGivenName $_.givenName ‚ÄìSurname $_.sn -Path "OU=Secondary Student Login Accounts,OU=Students,OU=AllUsers,OU=Company,DC=company,DC=com"  -DisplayName ($_.givenName + " " + $_.sn + " - " + $_.cn) -EmployeeID $_.employeeID -sAMAccountName $_.sAMAccountName -description $_.description -title $_.title -department $_.department  -company "British International School, Hanoi"
 $DN = Get-DistinguishedNameUser $ID
-Add-ADGroupMember "CN=BISHN_Student_Secondary,OU=Security Groups,OU=Groups,OU=BIS-HN,DC=bishanoi,DC=com" ñMember $DN
+Add-ADGroupMember "CN=Student_Secondary,OU=Security Groups,OU=Groups,OU=BIS-HN,DC=company,DC=com" ‚ÄìMember $DN
 Write-Host "Secondary account created:"  $_.cn $_.givenName $_.sn
 $body+="Secondary account created: $ID"
 }
@@ -66,9 +66,10 @@ $body+="No Year Supplied, so no user created: $ID"
 
 
 #Create the Mail Contact
-import-csv ì\\mail\SIMSImport\NewStudents\newstudents.csvî | ForEach-Object {
-$Email = ($_.cn + "@bishanoi.net")
-New-MailContact -name ($_.givenName + " " + $_.sn + " - " + $_.cn)  -alias $_.cn ñFirstName $_.givenName ñLastName $_.sn -ExternalEmailAddress $Email -PrimarySmtpAddress $Email -OrganizationalUnit "OU=Student Mail Contacts,OU=Students,OU=AllUsers,OU=BIS-HN,DC=bishanoi,DC=com"  -Displayname ($_.givenName + " " + $_.sn + " - " + $_.cn)
+import-csv ‚Äú\\mail\SIMSImport\NewStudents\newstudents.csv‚Äù | ForEach-Object {
+$Email = ($_.cn + "@company.net")
+New-MailContact -name ($_.givenName + " " + $_.sn + " - " + $_.cn)  -alias $_.cn ‚ÄìFirstName $_.givenName ‚ÄìLastName $_.sn -ExternalEmailAddress $Email -PrimarySmtpAddress $Email -OrganizationalUnit "OU=Student Mail Contacts,OU=Students,OU=AllUsers,OU=BIS-HN,DC=company
+,DC=com"  -Displayname ($_.givenName + " " + $_.sn + " - " + $_.cn)
 Write-Host "Exchange Mail Contact created:"  $_.cn $_.givenName $_.sn
 $body+="Exchange Mail Contact created:  $Email"
 }
@@ -76,22 +77,22 @@ $body+="Exchange Mail Contact created:  $Email"
 #Add the Mail Contact to the relevant Mail Distribution Group
 # what if no class supplied? -> Need to have an Update Students for running 2 days after admission.
 
-import-csv ì\\mail\SIMSImport\NewStudents\newstudents.csvî | ForEach-Object {
-$Email = ($_.cn + "@bishanoi.net")
+import-csv ‚Äú\\mail\SIMSImport\NewStudents\newstudents.csv‚Äù | ForEach-Object {
+$Email = ($_.cn + "@company.net")
 $GradClass=$GradClassArr.Get_Item($_.description)
 $ID = $_.cn
 $Class = $_.Reg
 if ($PrimaryYearClassGroups -match $_.description)
 {
 
-Add-DistributionGroupMember -Identity ( "BISHN Class 0" + $_.Reg) -Member $Email
+Add-DistributionGroupMember -Identity ( "Class 0" + $_.Reg) -Member $Email
 Write-Host "Primary Account" $_.cn $_.givenName $_.sn "added to class" $_.Reg
 $body+="Primary Account $Email added to class $Class"
  }
 elseif ($EYCClass -match $_.description)
 {
 
-Add-DistributionGroupMember -Identity ( "BISHN Class " + $_.Reg) -Member $Email
+Add-DistributionGroupMember -Identity ( "Class " + $_.Reg) -Member $Email
 Write-Host "EYC Account" $_.cn $_.givenName $_.sn "added to class" $_.Reg
 $body+="EYC Account $ID added to class $Class"
 }
@@ -99,7 +100,7 @@ $body+="EYC Account $ID added to class $Class"
 elseif ($SecondaryKS3 -match $_.description)
 {
 
-Add-DistributionGroupMember -Identity ( "BISHN Class 0" + $_.Reg) -Member $Email
+Add-DistributionGroupMember -Identity ( "Class 0" + $_.Reg) -Member $Email
 Write-Host "Secondary Account" $_.cn $_.givenName $_.sn "added to class" $_.Reg
 $body+="Secondary Account $ID added to class $Class"
 }
@@ -107,7 +108,7 @@ $body+="Secondary Account $ID added to class $Class"
 elseif ($SecondarySenior -match $_.description)
 {
 
-Add-DistributionGroupMember -Identity ( "BISHN Class " + $_.Reg) -Member $Email
+Add-DistributionGroupMember -Identity ( "Class " + $_.Reg) -Member $Email
 Write-Host "Secondary Account" $_.cn $_.givenName $_.sn "added to class" $_.Reg
 $body+="Secondary Account $ID added to class $Class"
 }
@@ -121,7 +122,7 @@ $body+="No Class Supplied, so mail contact not added to Class group: $ID" }
 
 
 #Set Password 
-import-csv ì\\mail\SIMSImport\NewStudents\newstudents.csvî | ForEach-Object {
+import-csv ‚Äú\\mail\SIMSImport\NewStudents\newstudents.csv‚Äù | ForEach-Object {
 $DOBLong = $_.DOB
 $DOBDay = $DOBLong.Substring(0,2) #first 2 characters
 $DOBMonth = $DOBLong.Substring(3,($DOBLong.length - 8)) #from 4th character
@@ -152,13 +153,13 @@ $body+= "No Year Supplied or no DOB supplied, so no password set: $ID"
 
 
 #Update fields on the AD MailContact
-import-csv ì\\mail\SIMSImport\NewStudents\newstudents.csvî | ForEach-Object {
+import-csv ‚Äú\\mail\SIMSImport\NewStudents\newstudents.csv‚Äù | ForEach-Object {
 $UserID = $_.cn
 $GradClass=$GradClassArr.Get_Item($_.description)
 $Office = ('Graduating Class: ' + $GradClass)
 $DOA = $_.DOA
 $Today = Get-Date
-$Email = ($UserID + '@bishanoi.net')
+$Email = ($UserID + '@company.net')
 $ID = $_.cn
 $DNContact = Get-DistinguishedNameContact $Email
 Write-Host $DNContact
@@ -169,12 +170,12 @@ $body+="AD Mail Contact fields updated:  $ID"}
 
 
 #Update fields on the AD User
-import-csv ì\\mail\SIMSImport\NewStudents\newstudents.csvî | ForEach-Object {
+import-csv ‚Äú\\mail\SIMSImport\NewStudents\newstudents.csv‚Äù | ForEach-Object {
 $UserID = $_.cn
 $GradClass=$GradClassArr.Get_Item($_.description)
 $HomeDir = ('\\192.168.150.55\studentpro$\' + $UserID)
 $Office = ('Graduating Class: ' + $GradClass)
-$Email = ($UserID + "@bishanoi.net")
+$Email = ($UserID + "@company.net")
 $DN = Get-DistinguishedNameUser $UserID
 $ID = $_.cn
 #Set Grade, Home Drive, Email Address, Grad Class
@@ -187,4 +188,4 @@ Write-Host "AD User Account fields updated:"   $_.givenName $_.sn $_.cn
 $body+="AD User Account fields updated:   $ID"}
 
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "Heidi Hendry <heidi.hendry@bishanoi.com>" -Subject "Create new AD Student Login Accounts & Mail Contacts" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@company.com>" -To "Heidi Hendry <heidi.hendry@company.com>" -Subject "Create new AD Student Login Accounts & Mail Contacts" -Body $body -Smtpserver "mail.company.com"
