@@ -34,7 +34,7 @@ $passwordExpiredCollection = @()
  
 # Email Option and Value  
  
-$smtp = "mail.bishanoi.com" 
+$smtp = "mail.company.com" 
 $subject = "Please change your password soon" 
  
 # filtering user from AD 
@@ -104,13 +104,13 @@ if ( $passwordExpiring7Days -ne $null ) {
             $7day = $7userCollection[3] 
  
  
-            Write-Host "Dear $7userName, Confirming your email address is $7userEmail. Please be aware that your BIS Hanoi password is expiring in $7pass days." -ForegroundColor Green 
+            Write-Host "Dear $7userName, Confirming your email address is $7userEmail. Please be aware that your Company password is expiring in $7pass days." -ForegroundColor Green 
  
             $body = "Dear $7userName, <br>" 
              
             $body += "<br>" 
-            $body += "Please be aware that your BIS Hanoi password is expiring in  <b><font color=red> $7pass days</b></font>. Please ensure you have changed it before then.<br>" 
-			 $body += "Your password can be changed on your BIS Hanoi computer by using Ctrl-Alt-Del and then 'Change Password'. This will automatically change the password for all your other BIS Hanoi services.<br>" 
+            $body += "Please be aware that your Company password is expiring in  <b><font color=red> $7pass days</b></font>. Please ensure you have changed it before then.<br>" 
+			 $body += "Your password can be changed on your Company computer by using Ctrl-Alt-Del and then 'Change Password'. This will automatically change the password for all your other Company services.<br>" 
             $body += "<br>" 
  
             $body += "Regards<br>" 
@@ -122,7 +122,7 @@ if ( $passwordExpiring7Days -ne $null ) {
             $body += "    2. Type your old password, type your new password, type your new password again to confirm it, and then press ENTER.<br>" 
  
             # if you want to send an email, please un-comment the below line. 
-            Send-MailMessage -to $7userEmail -From "helpdesk@bishanoi.com"  -SmtpServer $smtp -Body $body -BodyAsHtml -Subject $subject  -Priority high -Encoding UTF8 
+            Send-MailMessage -to $7userEmail -From "helpdesk@company.com"  -SmtpServer $smtp -Body $body -BodyAsHtml -Subject $subject  -Priority high -Encoding UTF8 
              
              
          
@@ -140,4 +140,4 @@ if ( $passwordExpiring7Days -ne $null ) {
  Write-Host $passwordExpiredCollection     
  
 # if you want to send an email, please un-comment the below line. 
-Send-MailMessage -to "it-info@bishanoi.com" -SmtpServer $smtp -From "it-info@bishanoi.com" -Body $body -Subject "Passwords expired" 
+Send-MailMessage -to "it-info@company.com" -SmtpServer $smtp -From "it-info@company.com" -Body $body -Subject "Passwords expired" 
