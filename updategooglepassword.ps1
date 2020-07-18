@@ -9,7 +9,7 @@ $DOBArray = @{"January" = "01";"February" = "02";"March" = "03";"April"="04";"Ma
 $body = @()
 
 #Set Password 
-import-csv ì\\mail\scripts$\SIMSImport\NewStudents\newstudents.csvî | ForEach-Object {
+import-csv ‚Äú\\mail\scripts$\SIMSImport\NewStudents\newstudents.csv‚Äù | ForEach-Object {
 $DOBLong = $_.DOB
 $DOBDay = $DOBLong.Substring(0,2) #first 2 characters
 $DOBMonth = $DOBLong.Substring(3,($DOBLong.length - 8)) #from 4th character
@@ -18,7 +18,7 @@ $DOBMM=$DOBArray.Get_Item($DOBMonth)
 $PWDprimary = (($DOBDay)+ ($DOBMM)+ ($DOBYear))
 $PWDsecondary = (($DOBDay)+ ($DOBMM)+ ($DOBYear) + 'B!')
 $GradClass=$GradClassArr.Get_Item($_.description)
-$ID = ($_.cn + "@bishanoi.net")
+$ID = ($_.cn + "@COMPANY.net")
 $Class = $_.Reg
 if ($PrimaryYear -match $_.description){
 gam update user $ID password $PWDprimary changepassword off
@@ -38,4 +38,4 @@ $body+= "No Year Supplied or no DOB supplied, so no password set: $ID"
 
 
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "IT Info <it-info@bishanoi.com>" -Subject "New Student Google Password Reset" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@COMPANY.com>" -To "IT Info <it-info@COMPANY.com>" -Subject "New Student Google Password Reset" -Body $body -Smtpserver "mail.COMPANY.com"
