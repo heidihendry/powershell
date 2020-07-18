@@ -14,10 +14,10 @@ Function Get-DistinguishedNameContact ($displayName)
 } 
 
 #Update targetAddress on the Student AD Contact
-import-csv “\\mail.bishanoi.com\simsimport\AllStudents\allstudents.csv” | ForEach-Object {
+import-csv “\\mail.COMPANY.com\simsimport\AllStudents\allstudents.csv” | ForEach-Object {
 
-$NewEmail = $_.cn + "@bishanoi.net"
-$OldEmail = $_.cn + "@bishanoi.com"
+$NewEmail = $_.cn + "@COMPANY.net"
+$OldEmail = $_.cn + "@COMPANY.com"
 $cn = $_.givenName + " " + $_.sn + " " + $_.cn
 $DN = Get-DistinguishedNameContact $cn
 
