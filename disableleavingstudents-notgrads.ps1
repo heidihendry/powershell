@@ -26,16 +26,16 @@ Function Get-DistinguishedNameUser ($samAccountName)
 import-csv “\\mail\script$\SIMSImport\LeavingStudents\leavers-notgrads.csv” | ForEach-Object {
 $DN = Get-DistinguishedNameUser $_.cn 
 Disable-ADAccount -Identity $DN
-Move-ADObject -Identity $DN "OU=Leavers - Student Accounts,OU=Leaving Students,OU=Leavers,OU=AllUsers,OU=BIS-HN,DC=bishanoi,DC=com"
+Move-ADObject -Identity $DN "OU=Leavers - Student Accounts,OU=Leaving Students,OU=Leavers,OU=AllUsers,OU=BIS-HN,DC=company,DC=com"
 Write-Host "User Account Disabled:"  $_.cn $_.givenName $_.sn
 $body+= "User Account Disabled: $DN"
 $DNContact = Get-DistinguishedNameContact $_.Email
 Disable-MailContact -Identity $DNContact -Confirm:$false
-Move-ADObject -Identity $DNContact "OU=Leaving Student Contacts,OU=Leaving Students,OU=Leavers,OU=AllUsers,OU=BIS-HN,DC=bishanoi,DC=com"
+Move-ADObject -Identity $DNContact "OU=Leaving Student Contacts,OU=Leaving Students,OU=Leavers,OU=AllUsers,OU=BIS-HN,DC=company,DC=com"
 Write-Host "Mail Contact Disabled:"  $_.cn $_.givenName $_.sn
 $body+= "Mail Contact Disabled: $DNContact"
 }
 
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "Heidi Hendry <it-info@bishanoi.com>" -Subject "Disable Leaving Non-Grad Students" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@company.com>" -To "Heidi Hendry <it-info@company.com>" -Subject "Disable Leaving Non-Grad Students" -Body $body -Smtpserver "mail.company.com"
 
