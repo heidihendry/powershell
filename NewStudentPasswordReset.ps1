@@ -36,7 +36,7 @@ Function Get-DistinguishedNameUser ($samAccountName)
 
 
 #Set Password 
-import-csv ì\\mail\scripts$\SIMSImport\NewStudents\newstudents.csvî | ForEach-Object {
+import-csv ‚Äú\\mail\scripts$\SIMSImport\NewStudents\newstudents.csv‚Äù | ForEach-Object {
 $DOBLong = $_.DOB
 $DOBDay = $DOBLong.Substring(0,2) #first 2 characters
 $DOBMonth = $DOBLong.Substring(3,($DOBLong.length - 8)) #from 4th character
@@ -65,4 +65,4 @@ $body+= "No Year Supplied or no DOB supplied, so no password set: $ID"
 
 
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "Heidi Hendry <heidi.hendry@bishanoi.com>" -Subject "New Student Password Reset" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@company.com>" -To "Heidi Hendry <heidi.hendry@company.com>" -Subject "New Student Password Reset" -Body $body -Smtpserver "mail.company.com"
