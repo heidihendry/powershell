@@ -42,7 +42,7 @@ $body+="Grad Student MailContact fields updated:  $DN"
 import-csv “\\mail\script$\SIMSImport\LeavingStudents\leavers-aregrads.csv” | ForEach-Object {
 $UserID = $_.cn
 $GradClass=$_.GradYear
-$HomeDir = ('\\nas.bishanoi.com\studentpro$\' + $UserID)
+$HomeDir = ('\\nas.COMPANY.com\studentpro$\' + $UserID)
 $Office = ('Graduated ' + $GradClass)
 $DN = Get-DistinguishedNameUser $_.cn
 $Dept = ('Graduated ' + $GradClass)
@@ -52,4 +52,4 @@ $body+="Grad Student  User Account fields updated: $UserID"
 }
 
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "Heidi Hendry <heidi.hendry@bishanoi.com>" -Subject "Update Grad Students" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@COMPANY.com>" -To "Heidi Hendry <heidi.hendry@COMPANY.com>" -Subject "Update Grad Students" -Body $body -Smtpserver "mail.COMPANY.com"
