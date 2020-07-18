@@ -29,7 +29,7 @@ Function Get-DistinguishedNameUser ($samAccountName)
 # Create the AD User 
 import-csv “\\mail\scripts$\createNewStaff\newstaff.csv” | ForEach-Object {
 $AccountName = $_.name	
-New-ADUser $_.name -sAMAccountName $_.sAMAccountName –GivenName $_.givenName –Surname $_.sn -Path "OU=New Users,OU=Staff,OU=AllUsers,OU=BIS-HN,DC=bishanoi,DC=com"  -EmployeeID $_.employeeID  -description $_.description -title $_.title -department $_.department  -company "British International School, Hanoi"  
+New-ADUser $_.name -sAMAccountName $_.sAMAccountName –GivenName $_.givenName –Surname $_.sn -Path "OU=New Users,OU=Staff,OU=AllUsers,OU=BIS-HN,DC=company,DC=com"  -EmployeeID $_.employeeID  -description $_.description -title $_.title -department $_.department  -company "British International School, Hanoi"  
 Write-Host "Staff AD account created:"  $_.cn $_.givenName $_.sn
 $body+="Staff AD account created: $AccountName"
 }
@@ -52,7 +52,7 @@ $body+="Account password set: $AccountName"
 #Update fields on the AD User
 import-csv “\\mail\scripts$\createNewStaff\newstaff.csv” | ForEach-Object {
 $UserID = $_.cn
-$HomeDir = ('\\nas.bishanoi.com\adminpro$\' + $UserID)
+$HomeDir = ('\\nas.company.com\adminpro$\' + $UserID)
 $DN = Get-DistinguishedNameUser $_.cn
 $EmpID = $_.employeeID
 
@@ -64,7 +64,7 @@ Set-ADUser -Identity $DN -Add @{co="Vietnam"} -Company 'British International Sc
 #Update Groups
 #
 #
-Add-ADGroupMember "CN=BIS_ADMIN,OU=Security Groups,OU=Groups,OU=BIS-HN,DC=bishanoi,DC=com" –Member $DN #This line can be repeated for any additional groups if necessary
+Add-ADGroupMember "CN=BIS_ADMIN,OU=Security Groups,OU=Groups,OU=BIS-HN,DC=company,DC=com" –Member $DN #This line can be repeated for any additional groups if necessary
 Write-Host "AD User Account fields updated:"   $_.givenName $_.sn $_.cn
 $body+="AD User Account fields updated: $UserID" 
 }
@@ -84,5 +84,5 @@ $body+="Exchange Mailbox created: $UserID"
 }
 
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "IT Scripts <it-info@bishanoi.com>" -Subject "Create New Staff" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@company.com>" -To "IT Scripts <it-info@company.com>" -Subject "Create New Staff" -Body $body -Smtpserver "mail.company.com"
 
