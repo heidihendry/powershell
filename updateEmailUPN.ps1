@@ -13,7 +13,7 @@ Function Get-DistinguishedNameUser ($samAccountName)
 $csv = read-host("What is the full path location of the CSV file?")
 import-csv $csv | ForEach-Object {
 $UserID = $_.cn
-$Email = ($UserID + "@bishanoi.net")
+$Email = ($UserID + "@company.net")
 $DN = Get-DistinguishedNameUser $UserID
 $ID = $_.cn
 
