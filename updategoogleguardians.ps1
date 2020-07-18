@@ -3,7 +3,7 @@ $body = @()
 $peFirst = @()
 $peSecond = @()
 $peLength = 0
-import-csv ìC:\scripts\UpdateGoogleGuardians\updategoogleguardians.csvî | ForEach-Object {
+import-csv ‚ÄúC:\scripts\UpdateGoogleGuardians\updategoogleguardians.csv‚Äù | ForEach-Object {
 $studentemail= $_.studentemail
 $parentemail = $_.parentemail
 $peLength = $parentemail.length
@@ -32,4 +32,4 @@ $peLength = 0
 
 }
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "Heidi Hendry <it-info@bishanoi.com>" -Subject "GAM Update Google Guardians" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@COMPANY.com>" -To "Heidi Hendry <it-info@COMPANY.com>" -Subject "GAM Update Google Guardians" -Body $body -Smtpserver "mail.COMPANY.com"
