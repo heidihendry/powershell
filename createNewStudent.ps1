@@ -181,7 +181,7 @@ $ID = $_.cn
 #Set Grade, Home Drive, Email Address, Grad Class
 Set-ADUser -Identity $DN -Description $_.description -Title $_.title  -HomeDirectory $HomeDir -HomeDrive ('S:') -EmailAddress $Email -Office $Office 
 #Set House
-Set-ADUser -Identity $DN -Department $_.department -Replace @{bishnGender=$_.bishnGender;bishnHouse=$_.bishnHouse;bishnGraduatingClass=$GradClass;info=("Date of Admission:" + $_.DOA + "Updated on:" + $Today)}
+Set-ADUser -Identity $DN -Department $_.department -Replace @{COMPANYGender=$_.COMPANYGender;COMPANYHouse=$_.COMPANYHouse;COMPANYGraduatingClass=$GradClass;info=("Date of Admission:" + $_.DOA + "Updated on:" + $Today)}
 #Set Password Settings
 Set-ADUser -Identity $DN -PasswordNeverExpires:$true -ChangePasswordAtLogon:$false -enabled:$true
 Write-Host "AD User Account fields updated:"   $_.givenName $_.sn $_.cn
