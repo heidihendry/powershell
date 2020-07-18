@@ -60,7 +60,7 @@ import-csv $StudentDirectory\photo-list.csv  |
 ForEach-Object {
 $Email = $_.BaseName
 $samAccountName = $Email.Substring(0,6)
-$userPrincipalName = $samAccountName+'@bishanoi.com'
+$userPrincipalName = $samAccountName+'@COMPANY.com'
 #$DistName = Get-DistinguishedNameContact($Email)
 $FileName = $_.Name
 $photo = [byte[]](Get-Content $StudentDirectory\$FileName -Encoding byte)
@@ -69,7 +69,7 @@ Write-Host "Photo set for Student Login Account:"  $samAccountName
 $body+= "Student Login Account Photo Updated $samAccountName"}
 
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "IT Info <it-info@bishanoi.com>" -Subject "AD & Outlook Update Photos 2016-2017" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@COMPANY.com>" -To "IT Info <it-info@COMPANY.com>" -Subject "AD & Outlook Update Photos 2016-2017" -Body $body -Smtpserver "mail.COMPANY.com"
 
 
 ## DIRECTORIES
@@ -130,7 +130,7 @@ import-csv $StudentDirectory\photo-list.csv  |
 ForEach-Object {
 $Email = $_.BaseName
 $samAccountName = $Email.Substring(0,6)
-$userPrincipalName = $samAccountName+'@bishanoi.com'
+$userPrincipalName = $samAccountName+'@COMPANY.com'
 #$DistName = Get-DistinguishedNameContact($Email)
 $FileName = $_.Name
 $photo = [byte[]](Get-Content $StudentDirectory\$FileName -Encoding byte)
@@ -139,4 +139,4 @@ $body+= "Student Login Account Photo Updated $samAccountName"}
 
 $body = $body | out-string
 
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "Heidi Hendry <it-info@bishanoi.com>" -Subject "AD & Outlook Update Photos 2017-2018" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@COMPANY.com>" -To "Heidi Hendry <it-info@COMPANY.com>" -Subject "AD & Outlook Update Photos 2017-2018" -Body $body -Smtpserver "mail.COMPANY.com"
