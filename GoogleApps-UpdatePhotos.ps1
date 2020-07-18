@@ -6,15 +6,15 @@ $body+= gam all users update photo "\\nas\m\4.Marketing & Graphic Design Materia
 $body = $body | out-string
 
 #$email = @{
-#From = "GAM - Update Photos <it-info@bishanoi.com>"
-#To = "Heidi Hendry <heidi.hendry@bishanoi.com>" 
-#CC = "it-info@bishanoi.com"
+#From = "GAM - Update Photos <it-info@company.com>"
+#To = "Heidi Hendry <heidi.hendry@company.com>" 
+#CC = "it-info@company.com"
 #Subject = "GAM Update Photos to G-Suite"
-#SMTPServer = "mail.bishanoi.com"
+#SMTPServer = "mail.company.com"
 #Body = $body
 #}
 
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "IT Info <it-info@bishanoi.com>" -Subject "GAM Update Photos to G-Suite 2016-2017" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@company.com>" -To "IT Info <it-info@company.com>" -Subject "GAM Update Photos to G-Suite 2016-2017" -Body $body -Smtpserver "mail.company.com"
 
 cd c:\gam
 $body = @()
@@ -24,6 +24,6 @@ $body+= gam all users update photo "\\nas\m\4.Marketing & Graphic Design Materia
 $body = $body | out-string
 
 
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "IT Info <it-info@bishanoi.com>" -Subject "GAM Update Photos to G-Suite 2017-2018" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@company.com>" -To "IT Info <it-info@company.com>" -Subject "GAM Update Photos to G-Suite 2017-2018" -Body $body -Smtpserver "mail.company.com"
 
 exit
