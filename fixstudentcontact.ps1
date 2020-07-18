@@ -34,29 +34,29 @@ Function Get-DistinguishedNameUser ($samAccountName)
 
 #Create the Mail Contact
 import-csv “\\mail\script$\SIMSImport\AllStudents\allstudents.csv” | ForEach-Object {
-$Email = ($_.cn + "@bishanoi.net")
-New-MailContact -name ($_.givenName + " " + $_.sn + " - " + $_.cn)  -alias $_.cn –FirstName $_.givenName –LastName $_.sn -ExternalEmailAddress $Email -PrimarySmtpAddress $Email -OrganizationalUnit "OU=Student Mail Contacts,OU=Students,OU=AllUsers,OU=BIS-HN,DC=bishanoi,DC=com"  -Displayname ($_.givenName + " " + $_.sn + " - " + $_.cn)
+$Email = ($_.cn + "@COMPANY.net")
+New-MailContact -name ($_.givenName + " " + $_.sn + " - " + $_.cn)  -alias $_.cn –FirstName $_.givenName –LastName $_.sn -ExternalEmailAddress $Email -PrimarySmtpAddress $Email -OrganizationalUnit "OU=Student Mail Contacts,OU=Students,OU=AllUsers,OU=BIS-HN,DC=COMPANY,DC=com"  -Displayname ($_.givenName + " " + $_.sn + " - " + $_.cn)
 Write-Host "Exchange Mail Contact created:"  $_.cn $_.givenName $_.sn
 $body+="Exchange Mail Contact created:  $Email"
 }
 
 #Add Mail Contact to Correct Mail Group
 import-csv “\\mail\script$\SIMSImport\NewStudents\newstudents.csv” | ForEach-Object {
-$Email = ($_.cn + "@bishanoi.net")
+$Email = ($_.cn + "@COMPANY.net")
 $GradClass=$GradClassArr.Get_Item($_.description)
 $ID = $_.cn
 $Class = $_.Reg
 if ($PrimaryYearClassGroups -match $_.description)
 {
 
-Add-DistributionGroupMember -Identity ( "BISHN Class 0" + $_.Reg) -Member $Email
+Add-DistributionGroupMember -Identity ( "COMPANY Class 0" + $_.Reg) -Member $Email
 Write-Host "Primary Account" $_.cn $_.givenName $_.sn "added to class" $_.Reg
 $body+="Primary Account $Email added to class $Class"
  }
 elseif ($EYCClass -match $_.description)
 {
 
-Add-DistributionGroupMember -Identity ( "BISHN Class " + $_.Reg) -Member $Email
+Add-DistributionGroupMember -Identity ( "COMPANY Class " + $_.Reg) -Member $Email
 Write-Host "EYC Account" $_.cn $_.givenName $_.sn "added to class" $_.Reg
 $body+="EYC Account $ID added to class $Class"
 }
@@ -64,7 +64,7 @@ $body+="EYC Account $ID added to class $Class"
 elseif ($SecondaryKS3 -match $_.description)
 {
 
-Add-DistributionGroupMember -Identity ( "BISHN Class 0" + $_.Reg) -Member $Email
+Add-DistributionGroupMember -Identity ( "COMPANY Class 0" + $_.Reg) -Member $Email
 Write-Host "Secondary Account" $_.cn $_.givenName $_.sn "added to class" $_.Reg
 $body+="Secondary Account $ID added to class $Class"
 }
@@ -72,7 +72,7 @@ $body+="Secondary Account $ID added to class $Class"
 elseif ($SecondarySenior -match $_.description)
 {
 
-Add-DistributionGroupMember -Identity ( "BISHN Class " + $_.Reg) -Member $Email
+Add-DistributionGroupMember -Identity ( "COMPANY Class " + $_.Reg) -Member $Email
 Write-Host "Secondary Account" $_.cn $_.givenName $_.sn "added to class" $_.Reg
 $body+="Secondary Account $ID added to class $Class"
 }
@@ -89,7 +89,7 @@ $GradClass=$GradClassArr.Get_Item($_.description)
 $Office = ('Graduating Class: ' + $GradClass)
 $DOA = $_.DOA
 $Today = Get-Date
-$Email = ($UserID + '@bishanoi.net')
+$Email = ($UserID + '@COMPANY.net')
 $ID = $_.cn
 $DNContact = Get-DistinguishedNameContact $UserID
 Write-Host $DNContact
@@ -99,4 +99,4 @@ Write-Host "AD Mail Contact fields updated:"  $UserID
 $body+="AD Mail Contact fields updated:  $ID"}
 
 $body = $body | out-string
-Send-MailMessage -From "IT Scripts <it-info@bishanoi.com>" -To "Heidi Hendry <heidi.hendry@bishanoi.com>" -Subject "Fix Mail Contacts" -Body $body -Smtpserver "mail.bishanoi.com"
+Send-MailMessage -From "IT Scripts <it-info@COMPANY.com>" -To "Heidi Hendry <heidi.hendry@COMPANY.com>" -Subject "Fix Mail Contacts" -Body $body -Smtpserver "mail.COMPANY.com"
